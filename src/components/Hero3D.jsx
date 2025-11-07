@@ -8,7 +8,7 @@ const Hero3D = () => {
       {/* 3D Scene */}
       <div className="absolute inset-0">
         <Spline
-          scene="https://prod.spline.design/Geb1kGWmIba9zPiH/scene.splinecode"
+          scene="https://prod.spline.design/N8g2VNcx8Rycz93J/scene.splinecode"
           style={{ width: '100%', height: '100%' }}
         />
       </div>
@@ -23,19 +23,18 @@ const Hero3D = () => {
           <span className="text-xs font-medium tracking-wider">MechaVision 3D</span>
         </div>
         <h1 className="text-4xl font-bold leading-tight tracking-tight md:text-6xl">
-          Transforming Industrial Design into <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">3D Reality</span>
+          Transforming Industrial Design into <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">Interactive Reality</span>
         </h1>
         <p className="max-w-2xl text-sm text-neutral-300 md:text-base">
-          Studio desain dan pemasaran 3D berfokus pada mekanikal, industrial, serta custom action figure. Kami
-          memadukan CAD tingkat lanjut, 3D printing presisi, dan visualisasi fotorealistik untuk membawa ide Anda
-          menjadi prototipe dan konten pemasaran yang berdampak.
+          Dynamic 3D experiences with polished metal forms and neon accents. Rotate, zoom, and explore models in real time
+          for industrial concepts and collectible mechas.
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <a
             href="#showcase"
             className="inline-flex items-center gap-2 rounded-md bg-cyan-500 px-5 py-3 text-sm font-semibold text-neutral-900 transition hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300"
           >
-            Jelajahi Karya Kami
+            Explore Portfolio
             <ArrowRight size={16} />
           </a>
           <a

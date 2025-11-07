@@ -1,9 +1,11 @@
 import React, { useMemo, useState } from 'react';
+import { Maximize2 } from 'lucide-react';
+import ModelViewer from './ModelViewer';
 
 const ITEMS = [
-  { id: 1, title: 'Robotic Arm Assembly', cat: 'Industrial', media: 'video', src: 'https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxSb2JvdGljJTIwQXJtJTIwQXNzZW1ibHl8ZW58MHwwfHx8MTc2MjUxMjQyNnww&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80' },
+  { id: 1, title: 'Robotic Arm Assembly', cat: 'Industrial', media: 'image', src: 'https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxSb2JvdGljJTIwQXJtJTIwQXNzZW1ibHl8ZW58MHwwfHx8MTc2MjUxMjQyNnww&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80' },
   { id: 2, title: 'Gearbox Housing', cat: 'Mechanical Parts', media: 'image', src: 'https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxSb2JvdGljJTIwQXJtJTIwQXNzZW1ibHl8ZW58MHwwfHx8MTc2MjUxMjQyNnww&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80' },
-  { id: 3, title: 'Custom Mecha Figure', cat: 'Action Figures', media: 'image', src: 'https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxSb2JvdGljJTIwQXJtJTIwQXNzZW1ibHl8ZW58MHwwfHx8MTc2MjUxMjQyNnww&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80' },
+  { id: 3, title: 'Interactive Mecha Cube', cat: 'Action Figures', media: 'spline', src: 'https://prod.spline.design/N8g2VNcx8Rycz93J/scene.splinecode' },
   { id: 4, title: 'Industrial Valve 3D', cat: 'Industrial', media: 'image', src: 'https://images.unsplash.com/photo-1581093806997-124204d9fa9d?q=80&w=1200&auto=format&fit=crop' },
   { id: 5, title: 'CNC Fixture', cat: 'Mechanical Parts', media: 'image', src: 'https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxSb2JvdGljJTIwQXJtJTIwQXNzZW1ibHl8ZW58MHwwfHx8MTc2MjUxMjQyNnww&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80' },
   { id: 6, title: 'Mecha Helmet', cat: 'Action Figures', media: 'image', src: 'https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxSb2JvdGljJTIwQXJtJTIwQXNzZW1ibHl8ZW58MHwwfHx8MTc2MjUxMjQyNnww&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80' },
@@ -13,9 +15,21 @@ const categories = ['All', 'Industrial', 'Mechanical Parts', 'Action Figures'];
 
 const Showcase = () => {
   const [active, setActive] = useState('All');
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [viewerScene, setViewerScene] = useState('');
+  const [viewerTitle, setViewerTitle] = useState('');
+
   const filtered = useMemo(() => {
     return active === 'All' ? ITEMS : ITEMS.filter(i => i.cat === active);
   }, [active]);
+
+  const openViewer = (item) => {
+    if (item.media === 'spline') {
+      setViewerScene(item.src);
+      setViewerTitle(item.title);
+      setViewerOpen(true);
+    }
+  };
 
   return (
     <section id="showcase" className="relative w-full bg-neutral-950 py-20 text-white">
@@ -41,8 +55,24 @@ const Showcase = () => {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map(item => (
             <div key={item.id} className="group overflow-hidden rounded-xl border border-cyan-400/20 bg-neutral-900/40">
-              {item.media === 'video' ? (
-                <video src={item.src} autoPlay loop muted playsInline className="aspect-video w-full object-cover" />
+              {item.media === 'spline' ? (
+                <div className="relative">
+                  <div className="aspect-video w-full">
+                    {/* Thumbnail placeholder: subtle gradient to hint interactivity */}
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-neutral-800 to-neutral-900">
+                      <div className="text-center">
+                        <p className="text-sm text-neutral-300">3D Interactive Model</p>
+                        <p className="text-xs text-neutral-400">Tap to open viewer</p>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => openViewer(item)}
+                    className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-md border border-cyan-400/30 bg-neutral-900/70 px-3 py-1 text-xs text-neutral-200 backdrop-blur transition hover:border-cyan-300 hover:text-white"
+                  >
+                    <Maximize2 size={14} /> View 3D
+                  </button>
+                </div>
               ) : (
                 <img src={item.src} alt={item.title} className="aspect-video w-full object-cover" />
               )}
@@ -54,6 +84,13 @@ const Showcase = () => {
           ))}
         </div>
       </div>
+
+      <ModelViewer
+        open={viewerOpen}
+        onClose={() => setViewerOpen(false)}
+        scene={viewerScene}
+        title={viewerTitle}
+      />
     </section>
   );
 };
